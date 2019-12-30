@@ -22,7 +22,7 @@ apply plugin: 'maven'
 // https://github.com/facebook/react-native/blob/0.60-stable/template/android/build.gradle#L5-L9
 def DEFAULT_COMPILE_SDK_VERSION = 28
 def DEFAULT_BUILD_TOOLS_VERSION = "28.0.3"
-def DEFAULT_MIN_SDK_VERSION = 16
+def DEFAULT_MIN_SDK_VERSION = 26
 def DEFAULT_TARGET_SDK_VERSION = 28
 
 android {
@@ -34,10 +34,14 @@ android {
     targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
     versionCode 1
     versionName "1.0"
+      testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
   lintOptions {
     abortOnError false
   }
+    testOptions{
+        unitTests.includeAndroidResources true
+    }
 }
 
 repositories {
@@ -49,10 +53,20 @@ repositories {
         url "$projectDir/../node_modules/react-native/android"
     }
     mavenCentral()
+    google()
+    jcenter()
 }
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'org.mockito:mockito-android:3.2.4'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:core:1.2.0'
 }
 
 def configureReactNativePom(def pom) {
