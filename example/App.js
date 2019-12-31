@@ -24,6 +24,8 @@ export default class App extends Component<{}> {
         message
       });
     });
+
+    MyToast.show('Hello My Toast');
   }
   render() {
     return (
